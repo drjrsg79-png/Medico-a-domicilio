@@ -30,16 +30,31 @@
     <button class="logout" id="logoutBtn">Cerrar sesión</button>
   </div>
 
-  <div class="filters" id="filters">
-    <button data-filter="todas" class="active">Todas</button>
-    <button data-filter="pendiente">Pendientes</button>
-    <button data-filter="confirmado">Confirmadas</button>
-    <button data-filter="en_camino">En camino</button>
-    <button data-filter="completado">Completadas</button>
-    <button data-filter="cancelado">Canceladas</button>
+  <div class="filters" id="tabFilters">
+    <button data-tab="solicitudes" class="active">Solicitudes</button>
+    <button data-tab="medicos">Médicos<span id="pendingDoctorsBadge"></span></button>
   </div>
 
-  <div class="card-list" id="cardList"></div>
+  <div id="solicitudesTab">
+    <div class="filters" id="filters">
+      <button data-filter="todas" class="active">Todas</button>
+      <button data-filter="pendiente">Pendientes</button>
+      <button data-filter="confirmado">Confirmadas</button>
+      <button data-filter="en_camino">En camino</button>
+      <button data-filter="completado">Completadas</button>
+      <button data-filter="cancelado">Canceladas</button>
+    </div>
+    <div class="card-list" id="cardList"></div>
+  </div>
+
+  <div id="medicosTab" style="display:none;">
+    <div class="filters" id="doctorFilters">
+      <button data-dfilter="pendiente" class="active">Pendientes</button>
+      <button data-dfilter="aprobado">Aprobados</button>
+      <button data-dfilter="rechazado">Rechazados</button>
+    </div>
+    <div class="card-list" id="doctorList"></div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
