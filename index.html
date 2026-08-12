@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Médico a Domicilio · Polanco y Anzures</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="brand"><span class="dot"></span> Médico a Domicilio</div>
+  <a class="tel" href="tel:+525500000000">Llamar ahora</a>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">Polanco · Anzures · CDMX</span>
+  <h1>Consulta médica en tu casa, el mismo día.</h1>
+  <p class="lead">Solicita una visita y un médico llega a tu domicilio para atenderte. Sin salas de espera, sin traslados.</p>
+  <div class="cta-row">
+    <a href="#solicitar" class="btn btn-primary">Solicitar visita</a>
+    <a href="tel:+525500000000" class="btn btn-ghost">Llamar directamente</a>
+  </div>
+
+  <div class="route-strip">
+    <div class="stop">
+      <span class="marker"></span>
+      <div><div class="label">Polanco</div><div class="sub">Cobertura activa</div></div>
+    </div>
+    <div class="line"></div>
+    <div class="stop">
+      <span class="marker"></span>
+      <div><div class="label">Anzures</div><div class="sub">Cobertura activa</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <h2>Cómo funciona</h2>
+  <div class="steps">
+    <div class="step">
+      <span class="num">01</span>
+      <h3>Solicitas la visita</h3>
+      <p>Llenas el formulario con tu dirección y el motivo de la consulta.</p>
+    </div>
+    <div class="step">
+      <span class="num">02</span>
+      <h3>Confirmamos el horario</h3>
+      <p>Te contactamos para confirmar la hora en que el médico llega a tu domicilio.</p>
+    </div>
+    <div class="step">
+      <span class="num">03</span>
+      <h3>Recibes la consulta</h3>
+      <p>El médico llega a tu casa, te revisa y te da diagnóstico y receta si es necesario.</p>
+    </div>
+  </div>
+</section>
+
+<section class="form-section" id="solicitar">
+  <h2>Solicitar una visita</h2>
+  <p class="hint">Por ahora atendemos únicamente Polanco y Anzures.</p>
+
+  <form id="requestForm">
+    <div class="field">
+      <label for="nombre">Nombre completo</label>
+      <input type="text" id="nombre" required>
+    </div>
+
+    <div class="field">
+      <label for="telefono">Teléfono</label>
+      <input type="tel" id="telefono" required placeholder="55 1234 5678">
+    </div>
+
+    <div class="field">
+      <label for="colonia">Colonia</label>
+      <select id="colonia" required>
+        <option value="" disabled selected>Selecciona tu colonia</option>
+        <option value="Polanco">Polanco</option>
+        <option value="Anzures">Anzures</option>
+      </select>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="calle">Calle</label>
+        <input type="text" id="calle" required>
+      </div>
+      <div class="field">
+        <label for="numero">Número</label>
+        <input type="text" id="numero">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="referencias">Referencias (edificio, piso, entre calles)</label>
+      <input type="text" id="referencias">
+    </div>
+
+    <div class="field">
+      <label for="motivo">Motivo de la consulta</label>
+      <textarea id="motivo" required placeholder="Describe brevemente tus síntomas"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="horario">Horario preferido</label>
+      <input type="text" id="horario" placeholder="Ej. hoy en la tarde, mañana antes de las 12">
+    </div>
+
+    <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">Enviar solicitud</button>
+    <div id="feedback"></div>
+  </form>
+</section>
+
+<footer>© <span id="year"></span> Médico a Domicilio — Polanco y Anzures, CDMX</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
