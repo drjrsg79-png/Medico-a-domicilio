@@ -37,6 +37,7 @@ function showDashboard() {
   loginView.style.display = 'none';
   dashboardView.style.display = 'block';
   loadRequests();
+  loadDoctors();
 }
 
 loginForm.addEventListener('submit', async (e) => {
@@ -145,5 +146,104 @@ function escapeHtml(str) {
   div.textContent = str ?? '';
   return div.innerHTML;
 }
+
+// ---------- TABS ----------
+const tabFilters = document.getElementById('tabFilters');
+const solicitudesTab = document.getElementById('solicitudesTab');
+const medicosTab = document.getElementById('medicosTab');
+const doctorFilters = document.getElementById('doctorFilters');
+const doctorList = document.getElementById('doctorList');
+const pendingDoctorsBadge = document.getElementById('pendingDoctorsBadge');
+
+let allDoctors = [];
+let currentDoctorFilter = 'pendiente';
+
+tabFilters.addEventListener('click', (e) => {
+  if (e.target.tagName !== 'BUTTON') return;
+  const tab = e.target.dataset.tab;
+  [...tabFilters.children].forEach(b => b.classList.toggle('active', b === e.target));
+  solicitudesTab.style.display = tab === 'solicitudes' ? 'block' : 'none';
+  medicosTab.style.display = tab === 'medicos' ? 'block' : 'none';
+  if (tab === 'medicos') loadDoctors();
+});
+
+async function loadDoctors() {
+  doctorList.innerHTML = '<div class="empty">Cargando...</div>';
+  const { data, error } = await supabaseClient
+    .from('doctores')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    doctorList.innerHTML = '<div class="empty">No se pudieron cargar los médicos.</div>';
+    console.error(error);
+    return;
+  }
+  allDoctors = data;
+  updatePendingBadge();
+  renderDoctors();
+}
+
+function updatePendingBadge() {
+  const count = allDoctors.filter(d => d.status === 'pendiente').length;
+  pendingDoctorsBadge.textContent = count > 0 ? ` (${count})` : '';
+}
+
+async function updateDoctorStatus(id, status) {
+  const { error } = await supabaseClient.from('doctores').update({ status }).eq('id', id);
+  if (error) {
+    alert('No se pudo actualizar el estatus del médico.');
+    console.error(error);
+    return;
+  }
+  const doc = allDoctors.find(d => d.id === id);
+  if (doc) doc.status = status;
+  updatePendingBadge();
+  renderDoctors();
+}
+
+doctorFilters.addEventListener('click', (e) => {
+  if (e.target.tagName !== 'BUTTON') return;
+  currentDoctorFilter = e.target.dataset.dfilter;
+  [...doctorFilters.children].forEach(b => b.classList.toggle('active', b === e.target));
+  renderDoctors();
+});
+
+function renderDoctors() {
+  const list = allDoctors.filter(d => d.status === currentDoctorFilter);
+
+  if (list.length === 0) {
+    doctorList.innerHTML = '<div class="empty">No hay médicos en esta categoría.</div>';
+    return;
+  }
+
+  doctorList.innerHTML = list.map(d => `
+    <div class="req-card">
+      <div class="top">
+        <div>
+          <div class="name">${escapeHtml(d.nombre_completo)}</div>
+          <div class="when">${formatDate(d.created_at)}</div>
+        </div>
+        <span class="badge ${d.status}">${d.status}</span>
+      </div>
+      <div class="body">
+        <div><strong>Cédula:</strong> ${escapeHtml(d.cedula_profesional)}</div>
+        <div><strong>Tel:</strong> ${escapeHtml(d.telefono)}</div>
+        <div><strong>Correo:</strong> ${escapeHtml(d.email)}</div>
+        <div><strong>Zonas:</strong> ${(d.colonias || []).map(escapeHtml).join(', ')}</div>
+      </div>
+      <div class="status-row">
+        <button data-doc="${d.id}" data-dstatus="aprobado" class="${d.status === 'aprobado' ? 'active' : ''}">Aprobar</button>
+        <button data-doc="${d.id}" data-dstatus="rechazado" class="${d.status === 'rechazado' ? 'active' : ''}">Rechazar</button>
+        <button data-doc="${d.id}" data-dstatus="inactivo" class="${d.status === 'inactivo' ? 'active' : ''}">Desactivar</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+doctorList.addEventListener('click', (e) => {
+  if (e.target.tagName !== 'BUTTON') return;
+  updateDoctorStatus(e.target.dataset.doc, e.target.dataset.dstatus);
+});
 
 checkSession();
