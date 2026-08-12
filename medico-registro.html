@@ -1,1 +1,71 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Únete como médico · Médico a Domicilio</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="brand"><span class="dot"></span> Médico a Domicilio</div>
+  <a class="tel" href="index.html">Volver</a>
+</header>
+
+<section class="form-section" style="padding-top:30px;">
+  <h2>Únete como médico</h2>
+  <p class="hint">Regístrate para atender consultas a domicilio en tu zona. Revisamos cada solicitud antes de activarla.</p>
+
+  <form id="doctorForm">
+    <div class="field">
+      <label for="nombre">Nombre completo</label>
+      <input type="text" id="nombre" required>
+    </div>
+
+    <div class="field">
+      <label for="cedula">Cédula profesional</label>
+      <input type="text" id="cedula" required>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="telefono">Teléfono</label>
+        <input type="tel" id="telefono" required>
+      </div>
+      <div class="field">
+        <label for="email">Correo</label>
+        <input type="email" id="email" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="password">Crea una contraseña</label>
+      <input type="password" id="password" required minlength="6">
+    </div>
+
+    <div class="field">
+      <label>Zonas que puedes cubrir</label>
+      <div style="display:flex; gap:18px; margin-top:6px;">
+        <label style="display:flex; align-items:center; gap:6px; font-weight:500;">
+          <input type="checkbox" value="Polanco" class="colonia-check" style="width:auto;"> Polanco
+        </label>
+        <label style="display:flex; align-items:center; gap:6px; font-weight:500;">
+          <input type="checkbox" value="Anzures" class="colonia-check" style="width:auto;"> Anzures
+        </label>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">Enviar registro</button>
+    <div id="feedback"></div>
+  </form>
+</section>
+
+<footer>© <span id="year"></span> Médico a Domicilio</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/registro.js"></script>
+</body>
+</html>
